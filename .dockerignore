@@ -1,0 +1,6 @@
+.git
+.dockerignore
+.env
+store7/node_modules/
+store7/vendor/bundle/
+store7/tmp/

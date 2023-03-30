@@ -18,5 +18,14 @@ module Store7
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.log_level = :debug
+    config.log_tags  = [:subdomain, :uuid]
+    config.logger    = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+
+    config.cache_store = :redis_store, ENV['CACHE_URL'],
+      { namespace: 'store7::cache' }
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

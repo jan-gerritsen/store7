@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project contains a very simple (one model) application Rails 7 application using Docker, Postgres, Puma and Redis. 
 
-Things you may want to cover:
+I had some trouble confirguring everything up so that it worked. Hope this helps someone else. The configuration was mostly 
+taken from
+* https://semaphoreci.com/community/tutorials/dockerizing-a-ruby-on-rails-application (but with Puma instead of Unicorn)
+* https://itnext.io/docker-rails-puma-nginx-postgres-999cd8866b18 ( without nginx)
 
-* Ruby version
+Prerequites:
+* Install Docker and Docker Desktop
+* Clone this repo
 
-* System dependencies
+Next steps:
+* Create a .env file, and copy env-example to it. Modify the secret. 
+* Start the application in Docker Desktop
+* Create the database. In a console at the root of your app: `docker-compose run web rake db:create`
+* Migrate the database: `docker-compose run web rake db:migrate`
 
-* Configuration
+See if it works:
+* Go to http://0.0.0.0:3000/manufacturers (if you have not changed the model)
+* See the database here: http://localhost:8080/?pgsql=127.0.0.1&username=postgres&db=store7_development
 
-* Database creation
+Test:
+* Prepare the test db. Run: `docker compose run web rake db:test:prepare`
+* And then run the actual tests: `docker-compose run web rake test`
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

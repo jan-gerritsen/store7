@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - store7-postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  redis:
+    image: redis:7.0
+    ports:
+      - '6379:6379'
+    volumes:
+      - store7-redis:/var/lib/redis/data
+
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/opt/app
+    links:
+      - postgres
+      - redis
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+
+  sidekiq:
+    build:
+      context: .
+    command: bundle exec sidekiq
+    links:
+      - postgres
+      - redis
+    env_file:
+      - .env
+
+volumes:
+  store7-postgres:
+  store7-redis:
